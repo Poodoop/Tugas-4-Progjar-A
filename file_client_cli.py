@@ -93,10 +93,9 @@ def remote_delete(filename=""):
 if __name__ == '__main__':
     server_address = ('0.0.0.0', 6666)
 
+    remote_upload('Saxophone-Emoji.png')
     remote_list()
-    remote_get('donalbebek.jpg')
-
-    remote_upload('test.txt')
+    remote_upload('Elephant-Emoji.png')
     remote_list()
-    remote_delete('mountain.jpg')
+    remote_delete('Delete-This-Emoji.png')
     remote_list()
