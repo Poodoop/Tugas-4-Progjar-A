@@ -17,8 +17,6 @@ class FileProtocol:
 
             if c_request == 'upload':
                 params = [c[1], ' '.join(c[2:])]
-            elif c_request == 'delete':
-                params = [x for x in c[1:]]
             else:
                 params = [x for x in c[1:]]
 
