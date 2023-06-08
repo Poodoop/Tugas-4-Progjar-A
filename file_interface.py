@@ -30,23 +30,23 @@ class FileInterface:
     def upload(self, params=[]):
         try:
             filename = params[0]
-            file_content = base64.b64decode(params[1].encode())
-            with open(filename, 'wb') as f:
-                f.write(file_content)
-            return dict(status='OK', data=f"File {filename} berhasil diunggah")
+            filecontent = params[1]
+            fp = open(f"{filename}",'wb')
+            fp.write(base64.b64decode(filecontent))
+            fp.close()
+            return dict(status='OK',data='File berhasil diupload')
         except Exception as e:
             return dict(status='ERROR', data=str(e))
 
     def delete(self, params=[]):
         try:
             filename = params[0]
-            if os.path.exists(filename):
-                os.remove(filename)
-                return dict(status='OK', data=f"File {filename} berhasil dihapus")
-            else:
-                return dict(status='ERROR', data=f"File {filename} tidak ditemukan")
+            if (filename == ''):
+                return None
+            os.remove(filename)
+            return dict(status='OK',data='File berhasil dihapus')
         except Exception as e:
-            return dict(status='ERROR', data=str(e))
+            return dict(status='ERROR',data=str(e))
 
 if __name__=='__main__':
     f = FileInterface()
