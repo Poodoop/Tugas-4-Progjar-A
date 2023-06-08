@@ -30,6 +30,8 @@ class FileInterface:
     def upload(self, params=[]):
         try:
             filename = params[0]
+            if (filename == ''):
+                return None
             filecontent = params[1]
             fp = open(f"{filename}",'wb')
             fp.write(base64.b64decode(filecontent))
