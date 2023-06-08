@@ -38,4 +38,30 @@ GET
 - GAGAL:
   - status: ERROR
   - data: pesan kesalahan
+  
+UPLOAD
+* TUJUAN: untuk mengupload file dari folder satu ke folder lain dengan menyebutkan nama file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+  - PARAMETER2 : encode isi file
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data: 'File berhasil diupload'
+- GAGAL:
+  - status: ERROR
+  - data: 'Gagal'
+
+DELETE
+* TUJUAN: untuk menghapus file dengan menyebutkan nama file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data: 'File berhasil dihapus'
+- GAGAL:
+  - status: ERROR
+  - data: 'Gagal'
+
 
