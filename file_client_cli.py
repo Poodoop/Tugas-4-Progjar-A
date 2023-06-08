@@ -63,28 +63,37 @@ def remote_get(filename=""):
         print("Gagal")
         return False
     
+
 def remote_upload(filename=""):
-    try:
-        with open(filename, 'rb') as f:
-            file_content = base64.b64encode(f.read()).decode()
-        command_str = f"UPLOAD {filename} {file_content}"
-        hasil = send_command(command_str)
-        if hasil['status'] == 'OK':
-            print(hasil['data'])
-            return True
-        else:
-            print("Gagal")
-            return False
-    except FileNotFoundError:
-        print(f"File {filename} tidak ditemukan")
+    fp = open(filename,'rb')
+    # print(fp)
+    isifile = base64.b64encode(fp.read()).decode('utf-8')
+    fp.close()
+    # print(isifile)
+    command_str=f"POST {filename} {isifile}\n"
+    # print(command_str)
+    hasil = send_command(command_str)
+    # print(hasil)
+    if (hasil['status']=='OK'):
+        os.chdir('../')
+        logfile = open('log.txt','a')
+        logfile.write(f"{time.ctime()} : {filename} berhasil diupload\n")
+        logfile.close()        
+        print("File berhasil diupload")
+        return True
+    else:
+        print("Gagal")
         return False
 
-
 def remote_delete(filename=""):
-    command_str = f"DELETE {filename}"
+    command_str=f"DELETE {filename}\n"
     hasil = send_command(command_str)
-    if hasil['status'] == 'OK':
-        print(hasil['data'])
+    if (hasil['status']=='OK'):
+        os.chdir('../')
+        logfile = open('log.txt','a')
+        logfile.write(f"{time.ctime()} : {filename} berhasil didelete\n")
+        logfile.close()        
+        print("File berhasil didelete")
         return True
     else:
         print("Gagal")
