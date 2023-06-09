@@ -66,14 +66,10 @@ def remote_get(filename=""):
 
 def remote_upload(filename=""):
     fp = open(filename,'rb')
-    # print(fp)
-    isifile = base64.b64encode(fp.read()).decode('utf-8')
+    filecontent = base64.b64encode(fp.read()).decode('utf-8')
     fp.close()
-    # print(isifile)
-    command_str=f"POST {filename} {isifile}\n"
-    # print(command_str)
+    command_str=f"POST {filename} {filecontent}\n"
     hasil = send_command(command_str)
-    # print(hasil)
     if (hasil['status']=='OK'):
         os.chdir('../')
         logfile = open('log.txt','a')
@@ -102,9 +98,9 @@ def remote_delete(filename=""):
 if __name__ == '__main__':
     server_address=('172.16.16.101',9000)
 
-    remote_upload('Saxophone-Emoji.png')
+    remote_upload('Saxophone-Emoji.jpg')
     remote_list()
-    remote_upload('Elephant-Emoji.png')
+    remote_upload('Elephant-Emoji.jpg')
     remote_list()
-    remote_delete('Delete-This-Emoji.png')
+    remote_delete('Delete-This-Emoji.jpg')
     remote_list()
