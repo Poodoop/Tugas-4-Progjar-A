@@ -33,10 +33,11 @@ class FileInterface:
             if (filename == ''):
                 return None
             filecontent = params[1]
-            fp = open(f"{filename}",'wb')
-            fp.write(base64.b64decode(filecontent))
+            isifile = base64.b64decode(filecontent)
+            fp = open(filename,'wb+')
+            fp.write(isifile)
             fp.close()
-            return dict(status='OK',data='File berhasil diupload')
+            return dict(status='OK', data=f'{filename} has been uploaded successfully!')
         except Exception as e:
             return dict(status='ERROR', data=str(e))
 
@@ -46,7 +47,7 @@ class FileInterface:
             if (filename == ''):
                 return None
             os.remove(filename)
-            return dict(status='OK',data='File berhasil dihapus')
+            return dict(status='OK',data=f'{filename} has been deleted successfully!')
         except Exception as e:
             return dict(status='ERROR',data=str(e))
 
