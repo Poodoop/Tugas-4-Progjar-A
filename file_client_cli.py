@@ -65,35 +65,37 @@ def remote_get(filename=""):
     
 
 def remote_upload(filename=""):
-    fp = open(filename,'rb')
-    filecontent = base64.b64encode(fp.read()).decode('utf-8')
-    fp.close()
-    command_str=f"POST {filename} {filecontent}\n"
-    hasil = send_command(command_str)
-    if (hasil['status']=='OK'):
-        os.chdir('../')
-        logfile = open('log.txt','a')
-        logfile.write(f"{time.ctime()} : {filename} berhasil diupload\n")
-        logfile.close()        
-        print("File berhasil diupload")
-        return True
-    else:
-        print("Gagal")
+    try:
+        fp = open(f"{filename}", 'rb')
+        isifile = base64.b64encode(fp.read()).decode()
+        
+        command_str = f"UPLOAD {filename} {isifile}\n"
+        hasil = send_command(command_str)
+        if (hasil['status'] == 'OK'):
+            print(hasil['status'], hasil['data'])
+            return True
+        else:
+            print(hasil['status'], hasil['data'])
+            return False
+    except FileNotFoundError:
+        logging.warning(f"{filename} cannot be found!")
         return False
 
+
 def remote_delete(filename=""):
-    command_str=f"DELETE {filename}\n"
-    hasil = send_command(command_str)
-    if (hasil['status']=='OK'):
-        os.chdir('../')
-        logfile = open('log.txt','a')
-        logfile.write(f"{time.ctime()} : {filename} berhasil didelete\n")
-        logfile.close()        
-        print("File berhasil didelete")
-        return True
-    else:
-        print("Gagal")
+    try:
+        command_str = f"DELETE {filename}\n"
+        hasil = send_command(command_str)
+        if hasil['status'] == 'OK':
+            print(f"{filename} has been deleted successfully")
+            return True
+        else:
+            print("Gagal")
+            return False
+    except FileNotFoundError:
+        logging.warning(f"{filename} cannot be found!")
         return False
+
 
 if __name__ == '__main__':
     server_address=('172.16.16.101',9000)
