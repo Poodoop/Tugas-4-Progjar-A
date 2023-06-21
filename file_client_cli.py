@@ -66,10 +66,9 @@ def remote_get(filename=""):
 
 def remote_upload(filename=""):
     try:
-        fp = open(f"{filename}", 'rb')
-        isifile = base64.b64encode(fp.read()).decode()
-        
-        command_str = f"UPLOAD {filename} {isifile}\n"
+        with open(filename, 'rb') as f:
+            filecontent = base64.b64encode(f.read()).decode()
+        command_str = f"UPLOAD {filename} {filecontent}"
         hasil = send_command(command_str)
         if (hasil['status'] == 'OK'):
             print(hasil['status'], hasil['data'])
@@ -78,7 +77,7 @@ def remote_upload(filename=""):
             print(hasil['status'], hasil['data'])
             return False
     except FileNotFoundError:
-        logging.warning(f"{filename} cannot be found!")
+        print(f"{filename} cannot be found!")
         return False
 
 
@@ -93,7 +92,7 @@ def remote_delete(filename=""):
             print("Gagal")
             return False
     except FileNotFoundError:
-        logging.warning(f"{filename} cannot be found!")
+        print(f"{filename} cannot be found!")
         return False
 
 
