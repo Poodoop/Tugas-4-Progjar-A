@@ -32,7 +32,7 @@ class FileInterface:
             if (filename == ''):
                 return None
             filecontent = params[1]
-            isi= base64.b64decode(filecontent)
+            isi= base64.b64decode(filecontent.encode)
             fp = open(filename,'wb+')
             fp.write(isi)
             fp.close()
