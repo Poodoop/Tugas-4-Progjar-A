@@ -33,9 +33,8 @@ class FileInterface:
             if (filename == ''):
                 return None
             filecontent = base64.b64decode(params[1].encode())
-            fp = open(filename,'wb')
-            fp.write(filecontent)
-            fp.close()
+         with open(filename, 'wb') as f:
+                f.write(file_content)
             return dict(status='OK', data=f'{filename} has been uploaded successfully!')
         except Exception as e:
             return dict(status='ERROR', data=str(e))
@@ -43,7 +42,7 @@ class FileInterface:
     def delete(self, params=[]):
         try:
             filename = params[0]
-         if os.path.exists(filename):
+             if os.path.exists(filename):
                 os.remove(filename)
                 return dict(status='OK', data=f"{filename} has been deleted successfully!")
             else:
