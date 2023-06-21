@@ -26,29 +26,29 @@ class FileInterface:
         except Exception as e:
             return dict(status='ERROR',data=str(e))
 
-
     def upload(self, params=[]):
         try:
             filename = params[0]
             if (filename == ''):
                 return None
-            filecontent = base64.b64decode(params[1].encode())
-         with open(filename, 'wb') as f:
-                f.write(file_content)
+            filecontent = params[1]
+            isi= base64.b64decode(filecontent)
+            fp = open(filename,'wb+')
+            fp.write(isi)
+            fp.close()
             return dict(status='OK', data=f'{filename} has been uploaded successfully!')
         except Exception as e:
             return dict(status='ERROR', data=str(e))
-
+        
     def delete(self, params=[]):
         try:
             filename = params[0]
-             if os.path.exists(filename):
-                os.remove(filename)
-                return dict(status='OK', data=f"{filename} has been deleted successfully!")
-            else:
-                return dict(status='ERROR', data=f"File {filename} not found")
+            if (filename == ''):
+                return None
+            os.remove(filename)
+            return dict(status='OK', data=f'{filename} has been deleted successfully!')
         except Exception as e:
-            return dict(status='ERROR',data=str(e))
+            return dict(status='ERROR', data=str(e))
 
 if __name__=='__main__':
     f = FileInterface()
